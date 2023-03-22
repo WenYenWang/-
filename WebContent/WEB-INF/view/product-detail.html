@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>產品</title>
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="css/styles.css" rel="stylesheet" />
+</head>
+    <body id="page-top">
+			<div class="container">
+				<div class="row">
+			        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+			            <div class="container px-4 px-lg-5">
+			                <a class="navbar-brand" href="#page-top">Eshop</a>
+			                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+			                    選單
+			                    <i class="fas fa-bars"></i>
+			                </button>
+			                <div class="collapse navbar-collapse" id="navbarResponsive">
+			                    <ul class="navbar-nav ms-auto">
+									<li class="nav-item"><a sec:authorize="isAnonymous()"class="nav-link" th:href="@{/login}">登入</a></li>
+			                        <li class="nav-item"><a sec:authorize="!isAnonymous()"class="nav-link" th:href="@{/logout}">登出</a></li>
+			                        <li class="nav-item"><a sec:authorize="hasRole('EMPLOYEE')" class="nav-link" th:href="@{/add-customer}">新增客戶</a></li>
+			                        <li class="nav-item"><a sec:authorize="!isAnonymous()" class="nav-link" th:href="@{/show-customer}">客戶列表</a></li>
+			                        <li sec:authorize="!isAnonymous()" class="nav-item dropdown">
+			                        <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolioOrder" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">訂單</a>
+			                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolioOrder">
+			                                <li><a class="dropdown-item" th:href="@{/add-order}">新增訂單</a></li>
+			                                <li><a class="dropdown-item" th:href="@{/show-order}">管理訂單</a></li>
+			                            </ul>
+			                        </li> 
+			                        <li sec:authorize="!isAnonymous()" class="nav-item dropdown">
+			                        <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolioOrder" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">商品</a>
+			                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolioOrder">
+			                                <li><a class="dropdown-item" th:href="@{/show-products}">所有產品</a></li>
+			                                <li><a class="dropdown-item" th:href="@{/safe-products}">產品維護</a></li>
+			                            </ul>
+			                        </li> 
+							 </ul>		  
+			                </div>
+			            </div>
+			        </nav>
+		        </div>
+		        
+				<div class="row">
+					<h1>所有產品</h1>
+				</div>
+				
+				<div class="row">
+					<table class="table table-hover" th:if="${!products.empty}">
+						<thead>
+							<tr>
+								<th scope="col">產品編號</th>
+								<th scope="col">品牌</th>
+								<th scope="col">產品名稱</th>
+								<th scope="col">圖片</th>
+								<th scope="col">價錢</th>
+								<th scope="col">加入購物車</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="product : ${products}">				
+								<td th:text="${product.productId}"></td>
+								<td th:text="${product.brand}" ></td>
+								<td th:text="${product.name}"></td>
+								<td th:text="${product.productImage}"></td>
+								<td th:text="${product.productPrice}"></td>
+								<!-- <td><input type="number" class="form-control" step="any"  min="0" value="1"></td>  -->
+								<td><a class="btn btn-outline-success" type="submit" th:href="@{/show-cartform/} + ${product.productId}">加入購物車</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="row" th:if="${products.empty}">
+					<h3>暫無產品</h3>
+				</div>
+				
+				<div class="d-grid gap-2 d-md-block">
+					<div class="row">
+						<a th:href="@{/}" class="btn btn-outline-dark">返回</a>
+					</div>
+				</div>
+			</div>
+	    <footer class="navbar-fixed-bottom"><div class="container px-4 px-lg-5">Copyright &copy; Eshop 2022</div></footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+</body>
+</html>

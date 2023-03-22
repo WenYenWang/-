@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>客戶列表</title>
+<script type="text/javascript" th:src="@{/js/jQuery.js}"></script>
+<script type="text/javascript" th:src="@{/js/jsdvlivr.js}"></script>
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<h1>客戶列表</h1>
+		</div>
+		
+		<div class="row">
+			<table class="table table-hover" th:if="${!customers.empty}">
+				<thead>
+					<tr>
+						<th scope="col">客戶Id</th>
+						<th scope="col">公司名稱</th>
+						<th scope="col">聯絡人名稱</th>
+						<th scope="col">城市</th>
+						<th scope="col">地區</th>
+						<th scope="col">郵遞區號</th>
+						<th scope="col">行動電話號碼</th>
+						<th scope="col">修改</th>
+						<th scope="col">刪除</th>
+					</tr>
+				</thead>
+				<tbody>
+					    <tr th:each="customer : ${customers}">
+						<td th:text="${customer.customerId}"></td>
+						<td th:text="${customer.companyName}"></td>
+						<td th:text="${customer.contactName}"></td>
+						<td th:text="${customer.city}"></td>
+						<td th:text="${customer.district}"></td>
+						<td th:text="${customer.postalCode}"></td>
+						<td th:text="${customer.phoneNumber}"></td>
+						<td><a sec:authorize="hasRole('EMPLOYEE')"class="btn btn-primary" th:href="@{/edit-customer/} + ${customer.customerId}">修改資料</a></td>
+						<td><a sec:authorize="hasRole('EMPLOYEE')"class="btn btn-danger" th:data-confirm-delete="是否刪除客戶資料？"
+                               onclick="if(!confirm(this.getAttribute('data-confirm-delete')))return false"
+                               th:href="@{/delete-customer/} + ${customer.customerId}">刪除資料</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="row" th:if="${customers.empty}">
+			<h3>無客戶列表</h3>
+		</div>
+		
+		<div class="row">
+			<a th:href="@{/add-customer}" class="btn btn-outline-danger">新增個人檔案</a>
+			<a th:href="@{/customer-home}" class="btn btn-warning">回上一頁</a>
+		</div>
+	</div>
+</body>
+</html>

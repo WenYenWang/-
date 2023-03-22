@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+        <meta charset="UTF-8">
+        <title>訂單</title>
+        <script type="text/javascript" th:src="@{/js/jQuery.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jsdvlivr.js}"></script>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+		<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+	</head>
+	<body class="d-flex flex-column h-100">
+		<main class="flex-shrink-0">
+            <!-- Navigation-->
+            <div th:replace="navtopbar :: header"></div>
+           
+            <!-- Blog preview section-->
+            <section class="py-5">
+                <div class="container">
+                    <div class="row">
+						<h1>所有訂單</h1>
+					</div>
+					
+					<div class="row">
+						<table class="table table-hover" th:if="${!orders.empty}">
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">訂單日期</th>
+									<th scope="col">客戶編號</th>
+									<th scope="col">付款方式</th>
+									<th scope="col">總額</th>
+									<th scope="col">編輯內容</th>
+									<th scope="col">編輯詳細內容</th>
+									<th scope="col">刪除訂單</th>
+									<th scope="col">詳細內容</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="order : ${orders}">
+									<td th:text="${orderStat.count}"></td>
+									<td th:text="${#dates.format(order.orderDate, 'yyyy-MM-dd')}"></td>
+									<td th:text="${order.customerId}"></td>
+									<td th:text="${order.payment}"></td>
+									<td th:text="${#strings.replace(#strings.replace(#numbers.formatCurrency(order.amount), '¤', '$'), '.00', '')}"></td>
+									<td><a class="btn btn-primary" th:href="@{/edit-order/} + ${order.orderId}">編輯</a></td>
+									<td><a class="btn btn-primary" th:href="@{/edit-order-details/} + ${order.orderId}">編輯</a></td>
+									<td><a class="btn btn-danger" th:href="@{/delete-order/} + ${order.orderId}">刪除</a></td>
+									<td><a class="btn btn-success" th:href="@{/show-order-details/} + ${order.orderId}">顯示</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div class="row " th:if="${orders.empty}">
+						<h3>沒有任何訂單</h3>
+					</div>
+					
+					<div class="row ">
+						<a th:href="@{/}" class="btn btn-warning">返回</a>
+					</div>
+                </div>
+            </section>
+        </main>
+        <!-- Footer-->
+        <footer class="bg-dark py-4 mt-auto">
+            <div class="container px-5">
+                <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+                    <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; eshop 2022</div></div>
+                    <div class="col-auto">
+                        <a class="link-light small" href="#!">Privacy</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="#!">Terms</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="#!">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+	</body>
+</html>

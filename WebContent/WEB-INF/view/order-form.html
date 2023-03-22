@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+        <meta charset="UTF-8">
+        <title>訂單</title>
+        <link rel="icon" type="image/x-icon" th:href="@{resources/ico/favicon.ico}">
+        <link rel="stylesheet" type="text/css" th:href="@{resources/css/styles.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{resources/css/bootstrap.min.css}">
+        <script th:src="@{resources/js/jquery-3.6.3.min.js}"></script>
+        <script th:src="@{resources/js/bootstrap.bundle.min.js}"></script>
+	</head>
+	<body class="d-flex flex-column h-100">
+		<main class="flex-shrink-0">
+            <!-- Navigation-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+                <div class="container px-5">
+                    <a class="navbar-brand" th:href="@{/}">eshop</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li sec:authorize="!isAnonymous()" class="nav-item"><a class="nav-link" href="#">產品維護</a></li>
+                            <li sec:authorize="!isAnonymous()" class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolioOrder" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">訂單</a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolioOrder">
+                                    <li><a class="dropdown-item" th:href="@{/add-order}">新增訂單</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/show-order}">管理訂單</a></li>
+                                </ul>
+                            </li>
+                            <li sec:authorize="!isAnonymous()" class="nav-item"><a class="nav-link" href="#">購物車</a></li>
+                            <li sec:authorize="!isAnonymous()" class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolioCustomer" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">會員</a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolioCustomer">
+                                    <li><a class="dropdown-item" href="#">基本資料</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/logout}">登出</a></li>
+                                </ul>
+                            </li>
+                            <li sec:authorize="isAnonymous()" class="nav-item"><a class="nav-link" th:href="@{/login}">登入</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- Blog preview section-->
+            <section class="py-5">
+                <div class="container px-5 my-5">
+                    <div class="row gx-5 justify-content-center">
+                        <div class="col-sm">
+                        </div>
+
+                        <div class="col-sm-8">
+							<h1>新增訂單</h1>
+							
+							<form action="#" th:action="@{/order-process-form}" th:object="${order}" method="post">
+								<div class="form-group">
+									<input type="hidden" class="form-control" th:field="*{orderId}">
+								</div>
+								
+								<div class="form-group">
+									<label>訂單日期</label>
+									<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('orderDate')}" th:errors="*{orderDate}"></div>
+									<input type="date" class="form-control" th:field="*{orderDate}">
+								</div>
+								
+								<div class="form-group">
+									<label>客戶編號</label>
+									<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('customerId')}" th:errors="*{customerId}"></div>
+									<input type="text" class="form-control" th:field="*{customerId}">
+									<!-- <small class="form-text text-muted">Expected format: LL-DDL where L-letter, D-digit</small> -->
+								</div>
+
+                                <div class="form-group">
+                                    <label>付款方式</label>
+                                    <select name="payment" class="form-control">
+                                        <option th:each="payment : ${T(main.model.Order.Payment).values()}"
+                                                th:value="${payment}" th:text="${payment}"></option>
+                                    </select>
+                                </div>
+								
+								<div class="form-group">
+									<label>總額</label>
+									<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></div>
+									<input type="number" class="form-control" th:field="*{amount}">
+								</div>
+								
+								<div class="row gx-5 justify-content-center">
+									<div class="col">
+										<input class="btn btn-success float-start" type="submit" value="新增">
+                                        <a class="btn btn-warning float-end" th:href="@{/}">返回</a>
+									</div>
+								</div>
+							</form>
+						</div>
+
+                        <div class="col-sm">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Footer-->
+        <footer class="bg-dark py-4 mt-auto">
+            <div class="container px-5">
+                <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+                    <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; eshop 2022</div></div>
+                    <div class="col-auto">
+                        <a class="link-light small" href="#!">Privacy</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="#!">Terms</a>
+                        <span class="text-white mx-1">&middot;</span>
+                        <a class="link-light small" href="#!">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+	</body>
+</html>
+

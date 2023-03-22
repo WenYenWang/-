@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>個人檔案</title>
+<script type="text/javascript" th:src="@{/js/jQuery.js}" ></script>
+<script type="text/javascript" th:src="@{/js/jsdvlivr.js}"></script>
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}" >
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm"></div>
+			
+			<div class="col-sm-8">
+				<h1>新增個人檔案</h1>
+				
+				<form action="#" th:action="@{/process-customer-form}" th:object="${customer}" method="post">
+				
+					<div class="form-group">
+						<input type="hidden" class="form-control" th:field="*{customerId}">
+					</div>
+				
+					<div class="form-group">
+						<label>公司名稱</label>
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}"></div>
+						<input type="text" class="form-control" th:field="*{companyName}">
+					</div>
+					
+					<div class="form-group">
+						<label>聯絡人名稱</label>
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('contactName')}" th:errors="*{contactName}"></div>
+						<input type="text" class="form-control" th:field="*{contactName}">
+					</div>
+						
+					<div class="form-group">
+						<label>郵遞區號</label>
+						<select name="postalCode" class="form-control">
+							<option
+									th:each="postalCode : ${T(main.model.Customer.PostalCode).values()}"
+									th:value="${postalCode}" th:text="${postalCode}"></option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label>城市</label>
+						<select name="city" class="form-control">
+							<option th:each="city : ${T(main.model.Customer.City).values()}"
+									th:value="${city}" th:text="${city}"></option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label> 區 域 </label> 
+						<input type="text" class="form-control" th:field="*{district}">
+							<div class="alert alert-danger" role="alert"
+								th:if="${#fields.hasErrors('district')}" th:errors="*{district}"></div>
+					</div>
+				
+					<div class="form-group">
+						<label>行動電話號碼</label>
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+						<input type="text" class="form-control" th:field="*{phoneNumber}">
+					</div>
+					
+					<div class="form-row">
+						<div class="col">
+							<input class="btn btn-success" type="submit" value="確認">
+						</div>
+						<div class="col">
+							<a th:href="@{/customer-home}" class="btn btn-warning float-right">返回</a>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="col-sm"></div>
+		</div>
+	</div>
+</body>
+</html>

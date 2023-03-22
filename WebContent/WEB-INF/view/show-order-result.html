@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Tours page</title>
+</head>
+<body>
+	<h1>List of available tours</h1>
+	
+	<div>
+	<div class="row">
+		<h1 th:text="${total} + ' details'"></h1>
+		</div>
+		<table th:if="${!cartDetails.empty}">
+			<tr>
+									<td>#</td>
+									<td>編號</td>
+									<td>折扣</td>
+									<td>產品編號</td>
+									<td>數量</td>
+									<td>總額</td>
+									<td>單價</td>
+									
+
+			</tr>
+			<tr th:each="cartDetail : ${cartDetails}">
+			
+				<td th:text="${cartDetail.cartDetailId}"></td>
+				<td th:text="${cartDetail.cartId}"></td>
+				<td th:text="${cartDetail.discount}"></td>
+				<td th:text="${cartDetail.productId}"></td>
+				<td th:text="${cartDetail.quantity}"></td>
+				<td th:text="${cartDetail.totalPrice}"></td>
+				<td th:text="${cartDetail.unitPrice}"></td>
+
+			</tr>
+		</table>
+		<span th:if="${tours.empty}">No tours in the offer</span>
+	</div>
+	
+	<p>
+		<a th:href="@{/}">Back</a>
+	</p>
+
+</body>
+</html>

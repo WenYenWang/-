@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>客戶資料維護</title>
+<script type="text/javascript" th:src="@{/js/jQuery.js}" ></script>
+<script type="text/javascript" th:src="@{/js/jsdvlivr.js}"></script>
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}" >
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+<link rel="stylesheet" th:href="@{/css/fontawesome.css}">
+<link rel="stylesheet" type="text/css" th:href="@{css/login.css}">
+</head>
+<body>
+	<div class="container">
+		<h1>客戶資料維護</h1>
+		
+		<a sec:authorize="hasRole('EMPLOYEE')"th:href="@{/add-customer}" class="btn btn-primary">新增客戶資料</a>
+		<a th:href="@{/show-customer}" class="btn btn-primary">客戶資料列表</a>
+	
+	
+		<div class="border border-success">
+			<p>網頁控管</p>
+			<div class="bg-primary text-white" sec:authorize="hasRole('ADMIN')">系統管理者</div>
+			<div class="bg-secondary text-white" sec:authorize="hasRole('EMPLOYEE')">系統維護者</div>
+			<div class="bg-warning text-black" sec:authorize="hasRole('CLIENT')">用戶</div>
+			<div class="bg-info text-white" sec:authorize="isAuthenticated()">此部分僅對經過身份驗證的用戶可見</div>
+			<div>
+				Username: <span sec:authentication="name"></span>
+			</div>
+			<div>
+				User roles: <span sec:authorize="isAuthenticated()">
+								<span sec:authentication="principal.authorities"></span>
+							</span>
+			</div>
+			<div class="row">
+			<a th:href="@{/}" class="btn btn-warning">回首頁</a>
+		</div>
+		</div>
+	</div>
+</body>
+</html>

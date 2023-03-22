@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>購物車</title>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<h1>購物車</h1>
+		</div>
+		
+		<div class="row">
+			<table class="table table-hover" th:if="${!cartdetail.empty}">
+				<thead>
+					<tr>
+						<th scope="col">圖片</th>
+						<th scope="col">品牌</th>
+						<th scope="col">產品名稱</th>
+						<th scope="col">價錢</th>
+						<th scope="col">數量</th>
+						<th scope="col">總金額</th>
+						<th scope="col">編輯</th>
+						<th scope="col">刪除</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="cartdetail : ${cartdetail}">	
+						<td th:text="${cartdetail.product.productImage}"></td>
+						<td th:text="${cartdetail.product.brand}" ></td>
+						<td th:text="${cartdetail.product.name}"></td>
+						<td th:text="${cartdetail.unitPrice}"></td>
+						<td th:text="${cartdetail.quantity}"></td>
+						<td th:text="${cartdetail.totalPrice}"></td>
+						<td><a class="btn btn-primary" th:href="@{/edit-cartdetail/} + ${cartdetail.cartDetailId}">編輯數量</a></td>
+						<td><a class="btn btn-danger" 
+							   th:data-confirm-delete="是否刪除商品？"
+							   onclick="if(!confirm(this.getAttribute('data-confirm-delete')))return false"
+							   th:href="@{/delete-cartdetail/} + ${cartdetail.cartDetailId}">刪除</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+ 		<div class="row" th:if="${cartdetail.empty}">
+			<h3>無購物清單</h3>
+		</div> 
+		
+<!-- 		<div class="row">
+			<a th:href="@{/add-product}" class="btn btn-add">新增產品</a>
+		<div class="row">
+			<a th:href="@{/}" class="btn btn-warning">返回</a>
+		</div>
+		 -->
+		<div class="form-row">
+			<div class="row">
+				<a th:href="@{/add-product}"  class="btn btn-outline-success">結帳</a>
+				<a th:href="@{/}" class="btn btn-outline-primary">返回</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
